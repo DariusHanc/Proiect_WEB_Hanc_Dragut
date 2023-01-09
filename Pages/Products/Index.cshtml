@@ -1,0 +1,104 @@
+﻿@page
+@model Proiect_Dragut_Hanc.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<body style="background: url('https://img.freepik.com/premium-photo/white-marble-texture-background-abstract-marble-texture-natural-patterns-design_41389-491.jpg?w=1060') ">
+
+    <p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by Product Title: <input type="text" name="SearchString" value="@Model.CurrentFilter" /> <input type="submit" value="Search" class="btn btn-primary" /> | <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort">
+                    @Html.DisplayNameFor(model => model.Product[0].Name)
+                </a>
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Category)
+            </th>
+           
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.PriceSort">
+                    @Html.DisplayNameFor(model => model.Product[0].Price)
+                </a>
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].AvailabilityDate)
+            </th>
+
+            
+
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Store)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProductD.Products)
+        {
+            string selectedRow = "";
+            if (item.ProductID == Model.ProdID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailabilityDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Store.StoreName)
+                </td>
+             
+                <td>
+                    @{
+                        foreach (var category in item.ProductCategories)
+                        {
+                            @category.Category.Id @: @category.Category.CategoryName
+                            <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ProductID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ProductID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ProductID">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+</body>

@@ -1,0 +1,75 @@
+﻿@page
+@model Proiect_Dragut_Hanc.Pages.Stores.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of stores</h1>
+<body style="background: url('https://img.freepik.com/premium-photo/white-marble-texture-background-abstract-marble-texture-natural-patterns-design_41389-491.jpg?w=1060') ">
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Store[0].StoreName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.StoreData.Store)
+        {
+            string selectedRow = "";
+            if (item.StoreID == Model.StorID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.StoreName)
+                </td>
+                <td>
+                    <a asp-page="./Index" asp-route-id="@item.StoreID">Select</a> |
+                    <a asp-page="./Edit" asp-route-id="@item.StoreID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.StoreID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.StoreID">Delete</a>
+                </td>
+            </tr>
+        }
+        
+    </tbody>
+</table>
+
+@if (Model.StoreData.Products != null)
+{
+    <h3>Products available on selected store</h3>
+    <table class="table">
+
+        @foreach (var item in Model.StoreData.Store)
+        {
+            string selectedRow = "";
+            if (item.StoreID == Model.StorID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+
+                <td>
+                    @{
+                        foreach (var b in item.Products)
+                        {
+
+                            @b.Name @: @b.Store.StoreName
+
+                            <br />
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+</body>
